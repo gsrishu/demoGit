@@ -1,0 +1,50 @@
+		<div class="lc-title-top myheading3" style="font-weight: 700;">
+                Latest Complaints
+            </div>
+
+             <?php      
+              include_once ("phplib/dataservice.php");
+                                            
+                        $ds=new dataservice();
+                        $res=$ds->fetch_query("select `comId`, `comUId`, `comOrg`, `comSector`, `comHeadName`, `comPhone`, `comOrgName`, `comOrgAdd`, left(`comDesc`,50) as `comDesc`, `comPin`, `comImg1`, `comImg2`, left(`comDate_Time`,10) as comDate_Time, `comStatue` from gkcm_complain order by comId desc LIMIT 4"); 
+                        while($row=mysqli_fetch_assoc($res))
+                        {
+                            if($row["comStatue"]=="YES" )
+                            {
+                                $img=str_ireplace("/l","/s",$row["comImg1"]);
+                            echo '  <div class="lc thumbnail">
+                                 <div class="lc-title">
+                                <i class="fa fa-university myuni"></i>
+                                 <a href="lcomplain-details.php?id='.$row["comId"].'"> '.$row["comOrgName"].' </a>
+                                </div>
+                                <div class="lc-img">
+                                    <img src="'.$img.'" alt="" class="img-responsive" width="100%">
+                                 </div>
+                                <div class="lc-meta">
+                                   '.$row["comOrg"].'-'.$row["comSector"].' <i class="fa fa-calendar" style="padding-buttom:2px;"> </i> '.$ds->changedatetoindian($row["comDate_Time"]).'
+                                   
+                                </div>
+                                 <p class="highlight-text">
+                         '.$row["comDesc"].'...
+                    </p>
+                                <div class="well-sm" style="margin-bottom: 25px;">
+                       
+                        <a class="more-btttn" href="lcomplain-details.php?id='.$row["comId"].'">Read More +</a>
+                    </div>
+                            </div>';
+                            }
+                            
+                        } 
+                                
+                            
+                 ?>
+           
+             <div class="laa">
+                    <div class="la-meta" style="text-align: right;">
+                        <a href="lcomplain-all.php" class="view-all" >
+							View All&nbsp;
+							<i class="fa fa-angle-double-right"></i>
+							<i class="fa fa-angle-right"></i>
+						</a>
+                    </div>
+                </div>
